@@ -1,6 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
-@Entity('EnderecoFuncionario')
+@Entity('endereco_funcionario')
 export class EnderecoFuncionario {
     
   @PrimaryGeneratedColumn({name:'id_endereco_funcionario'})
@@ -23,4 +23,5 @@ export class EnderecoFuncionario {
 
   @Column({name: 'cep', length:10})
   cep: string;
+
 }
