@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, OneToOne } from 'typeorm';
 import { EnderecoFuncionario } from 'src/endereco_funcionario/entities/endereco_funcionario.entity';
 
 @Entity('informacoes_cadastro_funcionario')
@@ -6,9 +6,10 @@ export class InformacaoFuncionario {
     @PrimaryGeneratedColumn()
     id_informacoes_cadastro_funcionario: number;
 
-    @ManyToOne(() => EnderecoFuncionario)
+    @OneToOne(() => EnderecoFuncionario)
     @JoinColumn({ name: 'id_endereco_funcionario' })
     id_endereco_funcionario: EnderecoFuncionario;
+    
 
     @Column('text')
     telefone: string;

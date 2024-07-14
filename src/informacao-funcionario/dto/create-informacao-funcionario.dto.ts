@@ -29,8 +29,32 @@ export class CreateInformacaoFuncionarioDto {
 
   @IsNotEmpty()
   @IsNumber()
-  id_endereco_funcionario: number;
+  id_endereco_funcionario?: number;
+
+  @IsOptional()
+  @IsString()
+  rua?: string;
+
+  @IsOptional()
+  @IsString()
+  numero?: string;
+
+  @IsOptional()
+  @IsString()
+  bairro?: string;
+
+  @IsOptional()
+  @IsString()
+  cidade?: string;
+
+  @IsOptional()
+  @IsString()
+  estado?: string;
+
+  @IsOptional()
+  @IsString()
+  cep?: string;
 
   @IsNotEmpty()
   ativo: boolean;
-}
+};
