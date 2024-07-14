@@ -1,34 +1,38 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, OneToOne } from 'typeorm';
+import { DadosBancariosFuncionario } from 'src/dados-bancarios-funcionaario/entities/dados-bancarios-funcionaario.entity';
 import { EnderecoFuncionario } from 'src/endereco_funcionario/entities/endereco_funcionario.entity';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
 
 @Entity('informacoes_cadastro_funcionario')
 export class InformacaoFuncionario {
-    @PrimaryGeneratedColumn()
-    id_informacoes_cadastro_funcionario: number;
+  @PrimaryGeneratedColumn()
+  id_informacoes_cadastro_funcionario: number;
 
-    @OneToOne(() => EnderecoFuncionario)
-    @JoinColumn({ name: 'id_endereco_funcionario' })
-    id_endereco_funcionario: EnderecoFuncionario;
-    
+  @OneToOne(() => EnderecoFuncionario)
+  @JoinColumn({ name: 'id_endereco_funcionario' })
+  id_endereco_funcionario: EnderecoFuncionario;
 
-    @Column('text')
-    telefone: string;
+  @OneToOne(() => DadosBancariosFuncionario)
+  @JoinColumn({ name: 'id_dados_bancarios' })
+  id_dados_bancarios: DadosBancariosFuncionario;
 
-    @Column('text')
-    cpf: string;
+  @Column('text')
+  telefone: string;
 
-    @Column('float')
-    salario: number;
+  @Column('text')
+  cpf: string;
 
-    @Column('date')
-    data_nascimento: string;
+  @Column('float')
+  salario: number;
 
-    @Column('date', { nullable: true })
-    data_desligamento: string;
+  @Column('date')
+  data_nascimento: Date;
 
-    @Column('date')
-    data_cadastro: string;
+  @Column('date', { nullable: true })
+  data_desligamento: Date;
 
-    @Column('bool')
-    ativo: boolean;
+  @Column('date')
+  data_cadastro: Date;
+
+  @Column('bool')
+  ativo: boolean;
 }

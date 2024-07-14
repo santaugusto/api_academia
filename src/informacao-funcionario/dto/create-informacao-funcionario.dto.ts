@@ -1,5 +1,49 @@
-import { IsDate, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsDate, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
+
+class EnderecoFuncionarioDto {
+  @IsString()
+  @IsNotEmpty()
+  rua: string;
+
+  @IsString()
+  @IsNotEmpty()
+  numero: string;
+
+  @IsString()
+  @IsOptional()
+  bairro?: string;
+
+  @IsString()
+  @IsNotEmpty()
+  cidade: string;
+
+  @IsString()
+  @IsNotEmpty()
+  estado: string;
+
+  @IsString()
+  @IsNotEmpty()
+  cep: string;
+}
+
+class DadosBancariosFuncionarioDto {
+  @IsString()
+  @IsNotEmpty()
+  banco: string;
+
+  @IsString()
+  @IsNotEmpty()
+  agencia: string;
+
+  @IsString()
+  @IsNotEmpty()
+  conta: string;
+
+  @IsString()
+  @IsNotEmpty()
+  tipoConta: string;
+}
 
 export class CreateInformacaoFuncionarioDto {
   @IsString()
@@ -27,34 +71,18 @@ export class CreateInformacaoFuncionarioDto {
   @Type(() => Date)
   data_desligamento?: Date;
 
+  @ValidateNested()
+  @Type(() => EnderecoFuncionarioDto)
   @IsNotEmpty()
-  @IsNumber()
-  id_endereco_funcionario?: number;
-
   @IsOptional()
-  @IsString()
-  rua?: string;
+  id_endereco_funcionario: EnderecoFuncionarioDto;
 
+  @ValidateNested()
+  @Type(() => DadosBancariosFuncionarioDto)
+  @IsNotEmpty()
   @IsOptional()
-  @IsString()
-  numero?: string;
-
-  @IsOptional()
-  @IsString()
-  bairro?: string;
-
-  @IsOptional()
-  @IsString()
-  cidade?: string;
-
-  @IsOptional()
-  @IsString()
-  estado?: string;
-
-  @IsOptional()
-  @IsString()
-  cep?: string;
+  id_dados_bancarios: DadosBancariosFuncionarioDto;
 
   @IsNotEmpty()
   ativo: boolean;
-};
+}

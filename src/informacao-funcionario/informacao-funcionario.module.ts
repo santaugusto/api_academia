@@ -4,10 +4,11 @@ import { InformacaoFuncionarioController } from './informacao-funcionario.contro
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { InformacaoFuncionario } from './entities/informacao-funcionario.entity';
 import { EnderecoFuncionario } from 'src/endereco_funcionario/entities/endereco_funcionario.entity';
+import { DadosBancariosFuncionario } from 'src/dados-bancarios-funcionaario/entities/dados-bancarios-funcionaario.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([InformacaoFuncionario, EnderecoFuncionario]), // Ensure both entities are included
+    TypeOrmModule.forFeature([InformacaoFuncionario, EnderecoFuncionario,DadosBancariosFuncionario]), // Ensure both entities are included
   ],
   controllers: [InformacaoFuncionarioController],
   providers: [InformacaoFuncionarioService],

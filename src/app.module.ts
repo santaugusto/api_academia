@@ -5,6 +5,8 @@ import { EnderecoFuncionarioModule } from './endereco_funcionario/endereco_funci
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { InformacaoFuncionarioModule } from './informacao-funcionario/informacao-funcionario.module';
+import { DadosBancariosFuncionaarioModule } from './dados-bancarios-funcionaario/dados-bancarios-funcionaario.module';
+import { DadosBancariosFuncionario } from './dados-bancarios-funcionaario/entities/dados-bancarios-funcionaario.entity';
 
 
 @Module({
@@ -32,6 +34,7 @@ import { InformacaoFuncionarioModule } from './informacao-funcionario/informacao
     }),
     EnderecoFuncionarioModule,
     InformacaoFuncionarioModule,
+    DadosBancariosFuncionaarioModule,
   ],
   controllers: [AppController],
   providers: [AppService],
