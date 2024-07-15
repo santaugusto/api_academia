@@ -6,7 +6,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { InformacaoFuncionarioModule } from './informacao-funcionario/informacao-funcionario.module';
 import { DadosBancariosFuncionaarioModule } from './dados-bancarios-funcionaario/dados-bancarios-funcionaario.module';
-import { DadosBancariosFuncionario } from './dados-bancarios-funcionaario/entities/dados-bancarios-funcionaario.entity';
+import { FuncionarioModule } from './funcionario/funcionario.module';
 
 
 @Module({
@@ -32,6 +32,7 @@ import { DadosBancariosFuncionario } from './dados-bancarios-funcionaario/entiti
         logging: true,
       }),
     }),
+    FuncionarioModule,
     EnderecoFuncionarioModule,
     InformacaoFuncionarioModule,
     DadosBancariosFuncionaarioModule,
