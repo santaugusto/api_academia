@@ -7,6 +7,7 @@ import { AppService } from './app.service';
 import { InformacaoFuncionarioModule } from './informacao-funcionario/informacao-funcionario.module';
 import { DadosBancariosFuncionaarioModule } from './dados-bancarios-funcionaario/dados-bancarios-funcionaario.module';
 import { FuncionarioModule } from './funcionario/funcionario.module';
+import { LoginModule } from './login/login.module';
 
 
 @Module({
@@ -36,6 +37,7 @@ import { FuncionarioModule } from './funcionario/funcionario.module';
     EnderecoFuncionarioModule,
     InformacaoFuncionarioModule,
     DadosBancariosFuncionaarioModule,
+    LoginModule,
   ],
   controllers: [AppController],
   providers: [AppService],
