@@ -8,7 +8,7 @@ import { InformacaoFuncionarioModule } from './informacao-funcionario/informacao
 import { DadosBancariosFuncionaarioModule } from './dados-bancarios-funcionaario/dados-bancarios-funcionaario.module';
 import { FuncionarioModule } from './funcionario/funcionario.module';
 import { LoginModule } from './login/login.module';
-
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -38,6 +38,7 @@ import { LoginModule } from './login/login.module';
     InformacaoFuncionarioModule,
     DadosBancariosFuncionaarioModule,
     LoginModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
