@@ -7,6 +7,7 @@ import { FuncionarioService } from './funcionario.service';
 import { FuncionarioController } from './funcionario.controller';
 import { Funcionario } from './entities/funcionario.entity';
 import { InformacaoFuncionario } from '../informacao-funcionario/entities/informacao-funcionario.entity';
+import { Login } from 'src/login/entities/login.entity';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { InformacaoFuncionario } from '../informacao-funcionario/entities/inform
       InformacaoFuncionario, 
       EnderecoFuncionario, 
       DadosBancariosFuncionario,
+      Login,
     ]),
     EnderecoFuncionarioModule,
   ],

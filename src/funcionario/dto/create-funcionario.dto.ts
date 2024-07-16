@@ -2,6 +2,7 @@
 import { IsNotEmpty, IsString, IsNumber, IsOptional } from 'class-validator';
 import { Type } from 'class-transformer';
 import { CreateInformacaoFuncionarioDto } from 'src/informacao-funcionario/dto/create-informacao-funcionario.dto';
+import { CreateLoginDto } from 'src/login/dto/create-login.dto';
 
 class EnderecoFuncionarioDto {
   @IsString()
@@ -77,4 +78,10 @@ export class CreateFuncionarioDto {
     data_cadastro: string;
     data_desligamento?: string;
   };
+  @Type(() => CreateLoginDto)
+  @IsNotEmpty()
+  login:{
+    email: string;
+    senha:string
+  }
 }

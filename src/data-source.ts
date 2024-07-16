@@ -2,7 +2,9 @@ import { DataSource } from 'typeorm';
 import { DadosBancariosFuncionario } from './dados-bancarios-funcionaario/entities/dados-bancarios-funcionaario.entity';
 import { EnderecoFuncionario } from './endereco_funcionario/entities/endereco_funcionario.entity';
 import { InformacaoFuncionario } from './informacao-funcionario/entities/informacao-funcionario.entity';
+import * as dotenv from 'dotenv';
 
+dotenv.config();
 export const AppDataSource = new DataSource({
   type: 'mysql',
   host: process.env.DB_HOST,

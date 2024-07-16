@@ -1,3 +1,4 @@
+import { Login } from 'src/login/entities/login.entity';
 import { InformacaoFuncionario } from './../../informacao-funcionario/entities/informacao-funcionario.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, ManyToOne } from 'typeorm';
 
@@ -21,4 +22,9 @@ export class Funcionario {
     @ManyToOne(() => InformacaoFuncionario, { cascade: true })
     @JoinColumn({ name: 'id_informacoes_cadastro_funcionario' })
     informacoes_cadastro_funcionario?: InformacaoFuncionario;
+
+    @ManyToOne(() => Login)
+    @JoinColumn({ name: 'id_login' }) 
+    id_login: Login;
+    
   }
