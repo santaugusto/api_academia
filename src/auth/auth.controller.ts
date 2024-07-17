@@ -9,11 +9,11 @@ export class AuthController {
     @Post('autenticar')
     signUp(@Body() body: any) {
         const { email, senha} = body;
-        return this.authService.singUp(email, senha)
+        return this.authService.signUp(email, senha)
     }
     @Post('deslogado')
-    singIn(@Body() body: any) {
+    signIn(@Body() body: any) {
         const { email, senha} = body;
-        return this.authService.singIn(email, senha)
+        return this.authService.signIn(email, senha)
     }
 }

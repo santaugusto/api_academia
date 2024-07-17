@@ -16,6 +16,11 @@ export class LoginController {
   findAll(): Promise<Login[]> {
     return this.loginService.findAll();
   }
+  
+  @Get(':email')
+  finfByEmail(@Param('email') email: string): Promise<Login> {
+    return this.loginService.finfByEmail(email);
+  }
 
   @Get(':id')
   findOne(@Param('id') id: number): Promise<Login> {
