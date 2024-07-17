@@ -1,48 +1,41 @@
 import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { randomBytes, scrypt as _scrypt } from 'crypto';
+import { UsuarioService } from 'src/usuario/usuario.service';
 import { promisify } from 'util';
-
+import * as bcrypt from 'bcryptjs';
 const scrypt = promisify(_scrypt);
 
-const users = []; // Esta abordagem não é recomendada para produção
+
 
 @Injectable()
 export class AuthService {
-    async signUp(email: string, senha: string) {
-        const existUser = users.find(user => user.email === email);
-        if (existUser) {
-            throw new BadRequestException('Email já cadastrado');
-        }
 
-        const salt = randomBytes(8).toString('hex');
-        const hash = await scrypt(senha, salt, 10) as Buffer;
-        const saltAndHash = `${salt}.${hash.toString('hex')}`;
+    constructor(private readonly usuarioService: UsuarioService) { }
 
-        const user = {
-            email,
-            senha: saltAndHash
-        };
 
-        users.push(user); // Armazenamento em memória para exemplo
-
-        const { senha: _, ...result } = user;
-        return result;
-    }
-
-    async signIn(email: string, senha: string) {
-        const user = users.find(user => user.email === email);
+    async validateUser(email: string, senha: string) {
+        console.log('Email:', email);
+        console.log('Senha:', senha);
+        
+        const user = await this.usuarioService.finfByEmail(email);
+        console.log(user);
         if (!user) {
             throw new UnauthorizedException('Credenciais inválidas');
         }
-
-        const [salt, storedHash] = user.senha.split('.');
-        const hash = (await scrypt(senha, salt, 32)) as Buffer;
-
-        if (storedHash !== hash.toString('hex')) {
+    
+       
+        const isPasswordValid = await bcrypt.compare(senha, user.senha);
+        if (!isPasswordValid) {
             throw new UnauthorizedException('Credenciais inválidas');
         }
+    
+        return {
+            ...user,
+            senha: undefined,
+        };
 
-        const { senha: _, ...result } = user;
-        return result;
+
     }
+    
 }
+

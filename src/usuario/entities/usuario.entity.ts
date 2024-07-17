@@ -1,9 +1,9 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('login')
-export class Login {
+@Entity('usuario')
+export class Usuario {
   @PrimaryGeneratedColumn()
-  id_login: number;
+  id_usuario: number;
 
   @Column({ type: 'text', unique: true })
   email: string;

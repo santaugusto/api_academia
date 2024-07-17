@@ -1,6 +1,6 @@
-import { Login } from 'src/login/entities/login.entity';
 import { InformacaoFuncionario } from './../../informacao-funcionario/entities/informacao-funcionario.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, ManyToOne } from 'typeorm';
+import { Usuario } from 'src/usuario/entities/usuario.entity';
 
 @Entity('funcionario')
 export class Funcionario {
@@ -23,8 +23,8 @@ export class Funcionario {
     @JoinColumn({ name: 'id_informacoes_cadastro_funcionario' })
     informacoes_cadastro_funcionario?: InformacaoFuncionario;
 
-    @ManyToOne(() => Login)
-    @JoinColumn({ name: 'id_login' }) 
-    id_login: Login;
+    @ManyToOne(() => Usuario)
+    @JoinColumn({ name: 'id_usuario' }) 
+    id_usuario: Usuario;
     
   }

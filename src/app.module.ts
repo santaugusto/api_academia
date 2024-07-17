@@ -1,3 +1,4 @@
+import { UsuarioModule } from './usuario/usuario.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Inject, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -7,7 +8,6 @@ import { AppService } from './app.service';
 import { InformacaoFuncionarioModule } from './informacao-funcionario/informacao-funcionario.module';
 import { DadosBancariosFuncionaarioModule } from './dados-bancarios-funcionaario/dados-bancarios-funcionaario.module';
 import { FuncionarioModule } from './funcionario/funcionario.module';
-import { LoginModule } from './login/login.module';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
@@ -37,7 +37,7 @@ import { AuthModule } from './auth/auth.module';
     EnderecoFuncionarioModule,
     InformacaoFuncionarioModule,
     DadosBancariosFuncionaarioModule,
-    LoginModule,
+    UsuarioModule,
     AuthModule,
   ],
   controllers: [AppController],

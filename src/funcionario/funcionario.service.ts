@@ -1,3 +1,4 @@
+import { Usuario } from './../usuario/entities/usuario.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -7,7 +8,6 @@ import { Funcionario } from './entities/funcionario.entity';
 import { InformacaoFuncionario } from '../informacao-funcionario/entities/informacao-funcionario.entity';
 import { EnderecoFuncionario } from 'src/endereco_funcionario/entities/endereco_funcionario.entity';
 import { DadosBancariosFuncionario } from 'src/dados-bancarios-funcionaario/entities/dados-bancarios-funcionaario.entity';
-import { Login } from 'src/login/entities/login.entity';
 
 @Injectable()
 export class FuncionarioService {
@@ -20,22 +20,22 @@ export class FuncionarioService {
     private readonly enderecoRepository: Repository<EnderecoFuncionario>,
     @InjectRepository(DadosBancariosFuncionario)
     private readonly dadosBancariosRepository: Repository<DadosBancariosFuncionario>,
-    @InjectRepository(Login) // Injetando o repositório de Login
-    private readonly loginRepository: Repository<Login>,
+    @InjectRepository(Usuario) 
+    private readonly usuarioRepository: Repository<Usuario>,
   ) {}
 
   async create(createFuncionarioDto: CreateFuncionarioDto): Promise<Funcionario> {
-    const { informacoes_cadastro_funcionario, login, ...funcionarioData } = createFuncionarioDto;
+    const { informacoes_cadastro_funcionario, usuario, ...funcionarioData } = createFuncionarioDto;
   
-    // Verifica se o login já existe
-    const loginExistente = await this.loginRepository.findOne({ where: { email: login.email } });
-    let loginSalvo: Login;
+    
+    const usuarioExistente = await this.usuarioRepository.findOne({ where: { email: usuario.email } });
+    let usuarioSalvo: Usuario;
   
-    if (loginExistente) {
-      loginSalvo = loginExistente;
+    if (usuarioExistente) {
+      usuarioSalvo = usuarioExistente;
     } else {
-      loginSalvo = this.loginRepository.create(login);
-      await this.loginRepository.save(loginSalvo);
+      usuarioSalvo = this.usuarioRepository.create(usuario);
+      await this.usuarioRepository.save(usuarioSalvo);
     }
   
     // Verifica se o endereço já existe
@@ -85,7 +85,7 @@ export class FuncionarioService {
     const funcionario = this.funcionarioRepository.create({
       ...funcionarioData,
       informacoes_cadastro_funcionario: informacaoSalva,
-      id_login: loginSalvo, // Corrigido para referenciar o objeto Login
+      id_usuario: usuarioSalvo, 
     });
   
     return this.funcionarioRepository.save(funcionario); // Retornando um único Funcionario
