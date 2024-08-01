@@ -1,41 +1,46 @@
-import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
-import { randomBytes, scrypt as _scrypt } from 'crypto';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsuarioService } from 'src/usuario/usuario.service';
-import { promisify } from 'util';
 import * as bcrypt from 'bcryptjs';
-const scrypt = promisify(_scrypt);
-
-
+import { UserPayload } from './interfaces/UserPayload';
+import { JwtService } from '@nestjs/jwt';
+import { UserToken } from './interfaces/UserToken';
 
 @Injectable()
 export class AuthService {
+    constructor(private readonly usuarioService: UsuarioService, private readonly jwtService: JwtService ) {}
+    
+    login(usuario: any): UserToken {
+        const payload: UserPayload ={
+            sub: usuario.id,
+            email: usuario.email,
+        };
 
-    constructor(private readonly usuarioService: UsuarioService) { }
-
-
-    async validateUser(email: string, senha: string) {
-        console.log('Email:', email);
-        console.log('Senha:', senha);
+        const jwtToken = this.jwtService.sign(payload); 
         
-        const user = await this.usuarioService.finfByEmail(email);
-        console.log(user);
+        return {
+            acessToken: jwtToken
+        };
+    }
+
+    async validateUser(email: string, senha: string): Promise<any> {
+
+        let user = await this.usuarioService.findByEmail(email);
+
         if (!user) {
             throw new UnauthorizedException('Credenciais inválidas');
         }
-    
-       
+
         const isPasswordValid = await bcrypt.compare(senha, user.senha);
+
         if (!isPasswordValid) {
             throw new UnauthorizedException('Credenciais inválidas');
         }
-    
-        return {
+
+        user = {
             ...user,
             senha: undefined,
         };
 
-
+        return user;
     }
-    
 }
-

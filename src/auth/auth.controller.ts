@@ -1,17 +1,22 @@
 import { AuthService } from './auth.service';
-import { Body,Controller, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, HttpCode, HttpStatus, Post, Request, UseGuards } from '@nestjs/common';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 
 @Controller()
 export class AuthController {
-    constructor(private readonly authService: AuthService) {}
+    constructor(private readonly authService: AuthService) { }
 
-    @Post('login')
     @HttpCode(HttpStatus.OK)
     @UseGuards(LocalAuthGuard)
-    login(@Body() body: any) {
+    @Post('login')
+   async login(@Body() body) {
+      
         const { email, senha } = body;
-        return this.authService.validateUser(email, senha);
+        let usuario = await this.authService.validateUser(email, senha)
+        usuario = JSON.stringify(usuario)
+        return this.authService.login(usuario);
+        
+
     }
 }
 

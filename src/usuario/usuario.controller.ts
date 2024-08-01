@@ -19,7 +19,7 @@ export class UsuarioController {
   
   @Get(':email')
   finfByEmail(@Param('email') email: string): Promise<Usuario> {
-    return this.usuarioService.finfByEmail(email);
+    return this.usuarioService.findByEmail(email);
   }
 
   @Get(':id')

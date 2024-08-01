@@ -45,5 +45,3 @@ import { AuthModule } from './auth/auth.module';
 })
 
 export class AppModule {}
-console.log('DB_HOST:', process.env.DB_HOST);
-console.log('DB_USERNAME:', process.env.DB_USERNAME);

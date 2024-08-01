@@ -42,7 +42,7 @@ export class UsuarioService {
     return this.usuarioRepository.find();
   }
 
-  async finfByEmail(email:string) {
+  async findByEmail(email:string): Promise<Usuario>{
     return this.usuarioRepository.findOne({
       where: {email}
     })

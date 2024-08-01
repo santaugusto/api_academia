@@ -1,10 +1,5 @@
-import {
-    ExecutionContext,
-    Injectable,
-    UnauthorizedException,
-} from '@nestjs/common';
+import { ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { error } from 'console';
 
 @Injectable()
 export class LocalAuthGuard extends AuthGuard('local') {
@@ -12,12 +7,9 @@ export class LocalAuthGuard extends AuthGuard('local') {
         return super.canActivate(context);
     }
 
-    handleRequest(err, user) {
-        if (err || !user) {
-            // throw new Error('Credenciais inválidas');
-            return error
-        }
+    handleRequest( user) {
 
         return user;
     }
 }
+    
