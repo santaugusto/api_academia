@@ -1,7 +1,8 @@
 import { Usuario } from './../usuario/entities/usuario.entity';
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcryptjs';
 import { CreateFuncionarioDto } from './dto/create-funcionario.dto';
 import { UpdateFuncionarioDto } from './dto/update-funcionario.dto';
 import { Funcionario } from './entities/funcionario.entity';
@@ -20,25 +21,24 @@ export class FuncionarioService {
     private readonly enderecoRepository: Repository<EnderecoFuncionario>,
     @InjectRepository(DadosBancariosFuncionario)
     private readonly dadosBancariosRepository: Repository<DadosBancariosFuncionario>,
-    @InjectRepository(Usuario) 
+    @InjectRepository(Usuario)
     private readonly usuarioRepository: Repository<Usuario>,
-  ) {}
+  ) { }
 
   async create(createFuncionarioDto: CreateFuncionarioDto): Promise<Funcionario> {
     const { informacoes_cadastro_funcionario, usuario, ...funcionarioData } = createFuncionarioDto;
   
-    
-    const usuarioExistente = await this.usuarioRepository.findOne({ where: { email: usuario.email } });
-    let usuarioSalvo: Usuario;
-  
-    if (usuarioExistente) {
-      usuarioSalvo = usuarioExistente;
-    } else {
-      usuarioSalvo = this.usuarioRepository.create(usuario);
-      await this.usuarioRepository.save(usuarioSalvo);
+    let usuarioSalvo = await this.usuarioRepository.findOne({ where: { email: usuario.email } });
+    if (usuarioSalvo) {
+      throw new HttpException('Email já cadastrado.', HttpStatus.BAD_REQUEST);
     }
   
-    // Verifica se o endereço já existe
+    const hashedSenha = await bcrypt.hash(usuario.senha, 10);
+  
+    // Cria e salva o usuário com a senha criptografada
+    usuarioSalvo = this.usuarioRepository.create({ ...usuario, senha: hashedSenha });
+    await this.usuarioRepository.save(usuarioSalvo);
+  
     const enderecoExistente = await this.enderecoRepository.findOne({
       where: {
         rua: informacoes_cadastro_funcionario.id_endereco_funcionario.rua,
@@ -47,7 +47,6 @@ export class FuncionarioService {
     });
   
     let endereco: EnderecoFuncionario;
-  
     if (enderecoExistente) {
       endereco = enderecoExistente;
     } else {
@@ -55,7 +54,6 @@ export class FuncionarioService {
       await this.enderecoRepository.save(endereco);
     }
   
-    // Verifica se os dados bancários já existem
     const dadosBancariosExistentes = await this.dadosBancariosRepository.findOne({
       where: {
         banco: informacoes_cadastro_funcionario.id_dados_bancarios.banco,
@@ -64,7 +62,6 @@ export class FuncionarioService {
     });
   
     let dadosBancarios: DadosBancariosFuncionario;
-  
     if (dadosBancariosExistentes) {
       dadosBancarios = dadosBancariosExistentes;
     } else {
@@ -72,7 +69,6 @@ export class FuncionarioService {
       await this.dadosBancariosRepository.save(dadosBancarios);
     }
   
-    // Cria a informação do funcionário
     const informacao = this.informacaoFuncionarioRepository.create({
       ...informacoes_cadastro_funcionario,
       id_endereco_funcionario: endereco,
@@ -81,16 +77,16 @@ export class FuncionarioService {
   
     const informacaoSalva = await this.informacaoFuncionarioRepository.save(informacao);
   
-    // Cria o funcionário
     const funcionario = this.funcionarioRepository.create({
       ...funcionarioData,
+      senha:usuarioSalvo.senha,
       informacoes_cadastro_funcionario: informacaoSalva,
-      id_usuario: usuarioSalvo, 
+      usuario: usuarioSalvo,
     });
   
-    return this.funcionarioRepository.save(funcionario); // Retornando um único Funcionario
+    return this.funcionarioRepository.save(funcionario);
   }
-  
+
 
 
   findAll() {

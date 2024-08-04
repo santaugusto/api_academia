@@ -5,10 +5,8 @@ import { Repository } from 'typeorm';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { Usuario } from './entities/usuario.entity'; 
 import { randomBytes, scrypt as _scryopt } from 'crypto';
-import { promisify } from 'util';
 import * as bcrypt from 'bcryptjs';
 
-const scrypt = promisify(_scryopt)
 
 @Injectable()
 export class UsuarioService {
@@ -20,7 +18,6 @@ export class UsuarioService {
   async create(createUsuarioDto: CreateUsuarioDto): Promise<Usuario> {
     const { email, senha } = createUsuarioDto;
   
-    // Verifica se o email já existe
     const existingUsuario= await this.usuarioRepository.findOne({ where: { email } });
     if (existingUsuario) {
       throw new HttpException('Email já cadastrado.', HttpStatus.BAD_REQUEST);

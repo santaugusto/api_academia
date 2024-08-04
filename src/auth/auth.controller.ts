@@ -10,7 +10,6 @@ export class AuthController {
     @UseGuards(LocalAuthGuard)
     @Post('login')
    async login(@Body() body) {
-      
         const { email, senha } = body;
         let usuario = await this.authService.validateUser(email, senha)
         usuario = JSON.stringify(usuario)
@@ -20,11 +19,4 @@ export class AuthController {
     }
 }
 
-
-
-//     @Post('deslogado')
-//     signIn(@Body() body: any) {
-//         const { email, senha} = body;
-//         return this.authService.validateUser(email, senha)
-//     }
 

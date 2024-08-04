@@ -8,7 +8,7 @@ export class CreateTableFuncionario1720905822633 implements MigrationInterface {
             nome VARCHAR(255),
             email VARCHAR(255) UNIQUE NOT NULL,
             cargo VARCHAR(255),
-            senha VARCHAR(255),  
+            senha VARCHAR(255),
             id_informacoes_cadastro_funcionario INT NULL,
             id_usuario INT,
             FOREIGN KEY (id_informacoes_cadastro_funcionario) REFERENCES informacoes_cadastro_funcionario(id_informacoes_cadastro_funcionario),

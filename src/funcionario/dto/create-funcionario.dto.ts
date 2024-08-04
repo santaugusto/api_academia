@@ -1,5 +1,4 @@
-// src/funcionario/dto/create-funcionario.dto.ts
-import { IsNotEmpty, IsString, IsNumber, IsOptional } from 'class-validator';
+import { IsNotEmpty, IsString, IsOptional } from 'class-validator';
 import { Type } from 'class-transformer';
 import { CreateInformacaoFuncionarioDto } from 'src/informacao-funcionario/dto/create-informacao-funcionario.dto';
 import { CreateUsuarioDto } from 'src/usuario/dto/create-usuario.dto';
@@ -78,10 +77,11 @@ export class CreateFuncionarioDto {
     data_cadastro: string;
     data_desligamento?: string;
   };
+
   @Type(() => CreateUsuarioDto)
   @IsNotEmpty()
-  usuario:{
+  usuario: {
     email: string;
-    senha:string
-  }
+    senha: string;
+  };
 }

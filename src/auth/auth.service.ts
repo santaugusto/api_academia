@@ -10,11 +10,11 @@ export class AuthService {
     constructor(private readonly usuarioService: UsuarioService, private readonly jwtService: JwtService ) {}
     
     login(usuario: any): UserToken {
+        usuario = JSON.parse(usuario)
         const payload: UserPayload ={
             sub: usuario.id,
             email: usuario.email,
         };
-
         const jwtToken = this.jwtService.sign(payload); 
         
         return {
